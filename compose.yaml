@@ -1,0 +1,8 @@
+version: '3'
+
+networks:            # netowkrs lets services communicate with each other
+  cluster_network:   # any name
+    driver: bridge     # default network driver is bridge: containers comm with other containers on same host
+    
+
+services:
