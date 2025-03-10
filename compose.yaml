@@ -1,8 +1,17 @@
-version: '3'
+# version is ignored by compose v2
 
-networks:            # netowkrs lets services communicate with each other
+networks:            # networks lets services communicate with each other
   cluster_network:   # any name
     driver: bridge     # default network driver is bridge: containers comm with other containers on same host
     
 
 services:
+  cluster_A_master:
+    network:
+      cluster_network:
+        ipv4_address: 172.17.0.2
+      
+  cluster_A_node1:
+    network:
+      cluster_network:
+        ipv4_address: 172.17.0.3
