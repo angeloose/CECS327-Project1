@@ -4,7 +4,7 @@ FROM python:3.9
 # Set working directory
 WORKDIR /project1
 
-# Copy necessary files
+# Copy necessary files into /project1
 COPY network.py .
 COPY node.py .
 COPY master.py .
@@ -14,6 +14,5 @@ COPY monitor.py .
 RUN apt-get update && apt-get install -y tcpdump 
 RUN pip install --no-cache-dir flask requests 
 
-
 # Default command (will be overridden in compose.yaml)
-CMD ["python3", "node.py"]
+CMD ["python3", "master.py"]

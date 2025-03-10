@@ -1,9 +1,10 @@
 import socket
 import threading
+import os
 
 # Cluster master details
 CLUSTER_A_MASTER = "172.16.0.2"
-CLUSTER_B_MASTER = "172.16" \
+CLUSTER_B_MASTER = "172.16.0.10"
 "\\\\.0.10"
 
 def handle_message(data, addr):
@@ -35,4 +36,6 @@ def start_server():
         threading.Thread(target=handle_message, args=(data, addr)).start()
 
 if __name__ == "__main__":
-    start_server()
+    container_name = os.getenv("container_name", "unknown")
+    print(f"Hello I am {container_name}")
+    #start_server()

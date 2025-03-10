@@ -20,3 +20,6 @@ def multicast_message(message, group_nodes):
     """Send message to a subset of nodes"""
     for node in group_nodes:
         send_message(node, message)
+
+if __name__ == "__main__":
+    print("Hi i am network")

@@ -17,3 +17,6 @@ def capture_packets(interface="eth0", count=10, filter_expr=""):
 
 # Example usage: Capture 5 TCP packets on eth0
 capture_packets(interface="eth0", count=5, filter_expr="tcp")
+
+if __name__ == "__main__":
+    print("Hi i am monitor")
