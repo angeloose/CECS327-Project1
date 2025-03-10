@@ -1,4 +1,4 @@
-from scapy.all import sniff
+from scapy import sniff
 
 def packet_callback(packet):
     if packet.haslayer('IP'):

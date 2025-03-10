@@ -4,13 +4,14 @@ FROM python:3.9
 # Set working directory
 WORKDIR /app
 
-# Copy necessary files
-COPY requirements.txt .
-COPY network.py .
-COPY node.py .
-
 # Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir flask requests scapy
+
+# Copy necessary files
+COPY network.py .
+COPY master.py .
+COPY node.py .
+COPY monitor.py .
 
 # Default command (will be overridden in compose.yaml)
 CMD ["python3", "node.py"]

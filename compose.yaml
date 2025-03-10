@@ -1,17 +1,28 @@
 services:
   cluster_a_master:
     container_name: cluster_a_master
-    build: ./cluster_master
+    build: .
     networks:
       - distributed_network
     command: ["python3", "/app/master.py"]
 
   node_a1:
     container_name: node_a1
-    build: ./node
+    build: .
     networks:
       - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
     command: ["python3", "/app/node.py"]
+
+  monitor:
+    container_name: monitor
+    build: .
+    networks:
+      - distributed_network
+    cap_add:
+      - NET_ADMIN
+    command: ["python3", "/app/monitor.py"]
 
 networks:
   distributed_network:
