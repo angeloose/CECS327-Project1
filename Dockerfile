@@ -4,8 +4,11 @@ FROM python:3.9
 # Set working directory
 WORKDIR /app
 
+# Install tcpdump
+RUN apt-get update && apt-get install -y tcpdump && rm -rf /var/lib/apt/lists/*
+
 # Install dependencies
-RUN pip install --no-cache-dir flask requests scapy
+RUN pip install --no-cache-dir flask requests
 
 # Copy necessary files
 COPY network.py .

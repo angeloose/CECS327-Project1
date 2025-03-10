@@ -1,9 +1,9 @@
 import socket
 import threading
-import time  # ✅ Added to keep script alive
+import time
 from network import send_message
 
-CLUSTER_MASTER = "192.168.1.2"  # Update based on your setup
+CLUSTER_MASTER = "192.168.1.2"  # Update based on setup
 
 def listen_for_messages():
     """Node listens for incoming messages"""
@@ -29,4 +29,4 @@ if __name__ == "__main__":
 
     # Keep the script running
     while True:
-        time.sleep(1)  # ✅ Prevents container from exiting
+        time.sleep(1)  # Prevents container from exiting
