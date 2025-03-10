@@ -2,40 +2,22 @@ import socket
 import threading
 import os
 
-# Cluster master details
-CLUSTER_A_MASTER = "172.16.0.2"
-CLUSTER_B_MASTER = "172.16.0.10"
-"\\\\.0.10"
 
-def handle_message(data, addr):
-    """Process received messages"""
-    message = data.decode()
-    print(f"Received: {message} from {addr}")
-
-    if message.startswith("FORWARD_TO:"):
-        parts = message.split(",")
-        destination_ip = parts[1]
-        forwarded_message = parts[2]
-        send_message(destination_ip, forwarded_message)
-
-def send_message(ip, message):
-    """Send a message to a specific IP"""
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.sendto(message.encode(), (ip, 5000))
-    s.close()
+ip_address = socket.gethostbyname(socket.gethostname())
 
 def start_server():
-    """Start UDP server for receiving messages"""
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.bind(("", 5000))
+    print(f"{container_name} starting UDP server for receiving messages")
+    server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    server.bind(("0.0.0.0", 9999))  # Bind to 0.0.0.0 which listens to all network interfaces
 
-    print("Cluster Master Listening on port 5000...")
+    print(f"{container_name} Listening on port 9999...")
 
     while True:
-        data, addr = s.recvfrom(1024)
-        threading.Thread(target=handle_message, args=(data, addr)).start()
+        data, addr = server.recvfrom(1024)
+        print(data.decode())
+        server.sendto(f"Hello from {container_name}".encode(), addr)
 
 if __name__ == "__main__":
-    container_name = os.getenv("container_name", "unknown")
+    container_name = os.getenv("container_name", "unknown")  # Get name of container
     print(f"Hello I am {container_name}")
-    #start_server()
+    start_server()

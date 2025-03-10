@@ -4,30 +4,29 @@ import threading
 import time  #  Added to keep script alive
 from network import send_message
 
-CLUSTER_MASTER = "172.16.0.10"  # Update based on your setup
+ip_address = socket.gethostbyname(socket.gethostname())
 
 def listen_for_messages():
     """Node listens for incoming messages"""
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  
-    try:
-        s.bind(("", 5000))
-        print("Listening on port 5000...")
-    except OSError as e:
-        print(f"Error binding to port 5000: {e}")
-        return
+    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-    while True:
-        data, addr = s.recvfrom(1024)
-        print(f"Message received from {addr}: {data.decode()}")
+    client.sendto(f"Heya from {container_name}".encode(), ((cluster_master), 9999))  
 
-def send_to_cluster_master(message):
-    """Send a message to the cluster master"""
-    send_message(CLUSTER_MASTER, message)
+    data, addr = client.recvfrom(1024)
+    print(data.decode())
+
 
 if __name__ == "__main__":
     container_name = os.getenv("container_name", "unknown")
-    print(f"Wasgood I am {container_name}")
+    print(f"Wasgood I am {container_name}, ip addy= {ip_address}")
+
+    if str(ip_address)[-2] == "a":
+        cluster_master = "172.16.0.2"
+    else:
+        cluster_master = "172.16.0.10"
+
+
+    listen_for_messages()
     # threading.Thread(target=listen_for_messages, daemon=True).start()
 
     # # Keep the script running
