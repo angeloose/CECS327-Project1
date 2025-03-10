@@ -15,6 +15,148 @@ services:
       - CLUSTER_MASTER=cluster_a_master
     command: ["python3", "/app/node.py"]
 
+  node_a2:
+    container_name: node_a2
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "/app/node.py"]
+
+  node_a3:
+    container_name: node_a3
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "/app/node.py"]
+
+  node_a4:
+    container_name: node_a4
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "/app/node.py"]
+
+  node_a5:
+    container_name: node_a5
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "/app/node.py"]
+
+  node_a6:
+    container_name: node_a6
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "/app/node.py"]
+
+  node_a7:
+    container_name: node_a7
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "/app/node.py"]
+
+  node_a8:
+    container_name: node_a8
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "/app/node.py"]
+
+  cluster_b_master:
+    container_name: cluster_b_master
+    build: .
+    networks:
+      - distributed_network
+    command: ["python3", "/app/master.py"]
+
+  node_b1:
+    container_name: node_b1
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "/app/node.py"]
+
+  node_b2:
+    container_name: node_b2
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "/app/node.py"]
+
+  node_b3:
+    container_name: node_b3
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "/app/node.py"]
+
+  node_b4:
+    container_name: node_b4
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "/app/node.py"]
+
+  node_b5:
+    container_name: node_b5
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "/app/node.py"]
+
+  node_b6:
+    container_name: node_b6
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "/app/node.py"]
+
+  node_b7:
+    container_name: node_b7
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "/app/node.py"]
+
+  node_b8:
+    container_name: node_b8
+    build: .
+    networks:
+      - distributed_network
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "/app/node.py"]
+
   monitor:
     container_name: monitor
     build: .
