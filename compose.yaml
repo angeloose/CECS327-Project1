@@ -1,8 +1,18 @@
-version: '3'
-
-networks:            # netowkrs lets services communicate with each other
-  cluster_network:   # any name
-    driver: bridge     # default network driver is bridge: containers comm with other containers on same host
-    
-
 services:
+  cluster_a_master:
+    container_name: cluster_a_master
+    build: ./cluster_master
+    networks:
+      - distributed_network
+    command: ["python3", "/app/master.py"]
+
+  node_a1:
+    container_name: node_a1
+    build: ./node
+    networks:
+      - distributed_network
+    command: ["python3", "/app/node.py"]
+
+networks:
+  distributed_network:
+    driver: bridge
