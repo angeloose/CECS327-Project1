@@ -2,8 +2,9 @@ import socket
 import threading
 
 # Cluster master details
-CLUSTER_A_MASTER = "172.17.0.2"
-CLUSTER_B_MASTER = "172.17.0.10"
+CLUSTER_A_MASTER = "172.16.0.2"
+CLUSTER_B_MASTER = "172.16" \
+"\\\\.0.10"
 
 def handle_message(data, addr):
     """Process received messages"""

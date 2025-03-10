@@ -1,18 +1,175 @@
 services:
   cluster_a_master:
     container_name: cluster_a_master
-    build: ./cluster_master
+    build: .
     networks:
-      - distributed_network
-    command: ["python3", "/app/master.py"]
+      cluster_network:
+        ipv4_address: 172.16.0.2
+    command: ["python3", "master.py"]
 
   node_a1:
     container_name: node_a1
-    build: ./node
+    build: .
     networks:
-      - distributed_network
-    command: ["python3", "/app/node.py"]
+      cluster_network:
+        ipv4_address: 172.16.0.3
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "node.py"]
+
+  node_a2:
+    container_name: node_a2
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.4
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "node.py"]
+
+  node_a3:
+    container_name: node_a3
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.5
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "node.py"]
+
+  node_a4:
+    container_name: node_a4
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.6
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "node.py"]
+
+  node_a5:
+    container_name: node_a5
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.7
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "node.py"]
+
+  node_a6:
+    container_name: node_a6
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.8
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "node.py"]
+
+  node_a7:
+    container_name: node_a7
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.9
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "node.py"]
+
+
+  cluster_b_master:
+    container_name: cluster_b_master
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.10
+    command: ["python3", "master.py"]
+
+  node_b1:
+    container_name: node_b1
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.11
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "node.py"]
+
+  node_b2:
+    container_name: node_b2
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.12
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "node.py"]
+
+  node_b3:
+    container_name: node_b3
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.13
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "node.py"]
+
+  node_b4:
+    container_name: node_b4
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.14
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "node.py"]
+
+  node_b5:
+    container_name: node_b5
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.15
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "node.py"]
+
+  node_b6:
+    container_name: node_b6
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.16
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "node.py"]
+
+  node_b7:
+    container_name: node_b7
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.17
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "node.py"]
+
+  node_b8:
+    container_name: node_b8
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.18
+    environment:
+      - CLUSTER_MASTER=cluster_b_master
+    command: ["python3", "node.py"]
+
 
 networks:
-  distributed_network:
+  cluster_network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.0/16

@@ -2,10 +2,13 @@ Refer to pdf for instructions
 
 Run commands:
 # Build & Start Containers
-docker-compose up --build
+docker compose -t "(any name)" .
 
 # Check running containers
-docker ps
+docker ps\
+
+# Run docker compose file
+docker compose up
 
 # Send test messages
 docker exec -it node_a1 python3 /app/node.py
