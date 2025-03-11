@@ -1,8 +1,6 @@
 import os
 import socket
-import threading
 import time  #  Added to keep script alive
-from network import send_message
 
 ip_address = socket.gethostbyname(socket.gethostname())
 

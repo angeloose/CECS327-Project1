@@ -5,10 +5,8 @@ FROM python:3.9
 WORKDIR /project1
 
 # Copy necessary files into /project1
-COPY network.py .
 COPY node.py .
 COPY master.py .
-COPY monitor.py .
 
 # Install dependencies
 RUN apt-get update && apt-get install -y tcpdump 
