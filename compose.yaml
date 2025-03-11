@@ -1,3 +1,10 @@
+networks:
+  cluster_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.0/20
+
 services:
   cluster_a_master:
     container_name: cluster_a_master
@@ -73,6 +80,16 @@ services:
     networks:
       cluster_network:
         ipv4_address: 172.16.0.9
+    environment:
+      - CLUSTER_MASTER=cluster_a_master
+    command: ["python3", "node.py"]
+
+  node_a8:
+    container_name: node_a8
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.19
     environment:
       - CLUSTER_MASTER=cluster_a_master
     command: ["python3", "node.py"]
@@ -166,10 +183,10 @@ services:
       - CLUSTER_MASTER=cluster_b_master
     command: ["python3", "node.py"]
 
-
-networks:
-  cluster_network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.16.0.0/16
+  network_test:
+    container_name: network_test
+    build: .
+    networks:
+      cluster_network:
+        ipv4_address: 172.16.0.20
+    command: ["python3", "/app/network.py"]
