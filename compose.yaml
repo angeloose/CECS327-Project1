@@ -3,7 +3,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.16.0.0/20
+        - subnet: 172.16.0.0/24
 
 services:
   cluster_a_master:
