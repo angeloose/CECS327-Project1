@@ -1,5 +1,11 @@
 Refer to pdf for instructions
 
+
+Got help from 
+-geeksforgeeks.org
+-docker.com
+-youtube
+
 Run commands:
 
 # Build image
