@@ -1,18 +1,15 @@
-networks:
-  cluster_network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.16.0.0/24
-
 services:
   cluster_a_master:
     container_name: cluster_a_master
-    build: .
+    build: .      # Use image from dockerfile build in current directory
     networks:
       cluster_network:
         ipv4_address: 172.16.0.2
-    command: ["python3", "master.py"]
+    environment:
+      - container_name=cluster_a_master
+    command: python3 master.py
+    volumes:
+      - ./logs:/app/logs
 
   node_a1:
     container_name: node_a1
@@ -21,8 +18,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.3
     environment:
-      - CLUSTER_MASTER=cluster_a_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_a1
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_a2:
     container_name: node_a2
@@ -31,8 +30,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.4
     environment:
-      - CLUSTER_MASTER=cluster_a_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_a2
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_a3:
     container_name: node_a3
@@ -41,8 +42,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.5
     environment:
-      - CLUSTER_MASTER=cluster_a_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_a3
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_a4:
     container_name: node_a4
@@ -51,8 +54,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.6
     environment:
-      - CLUSTER_MASTER=cluster_a_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_a4
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_a5:
     container_name: node_a5
@@ -61,8 +66,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.7
     environment:
-      - CLUSTER_MASTER=cluster_a_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_a5
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_a6:
     container_name: node_a6
@@ -71,8 +78,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.8
     environment:
-      - CLUSTER_MASTER=cluster_a_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_a6
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_a7:
     container_name: node_a7
@@ -81,18 +90,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.9
     environment:
-      - CLUSTER_MASTER=cluster_a_master
-    command: ["python3", "node.py"]
-
-  node_a8:
-    container_name: node_a8
-    build: .
-    networks:
-      cluster_network:
-        ipv4_address: 172.16.0.19
-    environment:
-      - CLUSTER_MASTER=cluster_a_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_a7
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
 
   cluster_b_master:
@@ -101,7 +102,11 @@ services:
     networks:
       cluster_network:
         ipv4_address: 172.16.0.10
-    command: ["python3", "master.py"]
+    environment:
+      - container_name=cluster_b_master
+    command: python3 master.py
+    volumes:
+      - ./logs:/app/logs
 
   node_b1:
     container_name: node_b1
@@ -110,8 +115,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.11
     environment:
-      - CLUSTER_MASTER=cluster_b_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_b1
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_b2:
     container_name: node_b2
@@ -120,8 +127,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.12
     environment:
-      - CLUSTER_MASTER=cluster_b_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_b2
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_b3:
     container_name: node_b3
@@ -130,8 +139,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.13
     environment:
-      - CLUSTER_MASTER=cluster_b_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_b3
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_b4:
     container_name: node_b4
@@ -140,8 +151,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.14
     environment:
-      - CLUSTER_MASTER=cluster_b_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_b4
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_b5:
     container_name: node_b5
@@ -150,8 +163,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.15
     environment:
-      - CLUSTER_MASTER=cluster_b_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_b5
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_b6:
     container_name: node_b6
@@ -160,8 +175,10 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.16
     environment:
-      - CLUSTER_MASTER=cluster_b_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_b6
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
   node_b7:
     container_name: node_b7
@@ -170,23 +187,17 @@ services:
       cluster_network:
         ipv4_address: 172.16.0.17
     environment:
-      - CLUSTER_MASTER=cluster_b_master
-    command: ["python3", "node.py"]
+      - container_name=cluster_b7
+    command: python3 node.py
+    volumes:
+      - ./logs:/app/logs
 
-  node_b8:
-    container_name: node_b8
-    build: .
-    networks:
-      cluster_network:
-        ipv4_address: 172.16.0.18
-    environment:
-      - CLUSTER_MASTER=cluster_b_master
-    command: ["python3", "node.py"]
+networks:
+  cluster_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.0/16
 
-  network_test:
-    container_name: network_test
-    build: .
-    networks:
-      cluster_network:
-        ipv4_address: 172.16.0.20
-    command: ["python3", "/app/network.py"]
+volumes:
+  logs: {}
