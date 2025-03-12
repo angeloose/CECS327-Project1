@@ -160,17 +160,6 @@ services:
       - container_name=cluster_b7
     command: python3 node.py
 
-  node_b8:
-    container_name: node_b8
-    build: .
-    networks:
-      cluster_network:
-        ipv4_address: 172.16.0.18
-    environment:
-      - container_name=cluster_b8
-    command: python3 node.py
-
-
 networks:
   cluster_network:
     driver: bridge
