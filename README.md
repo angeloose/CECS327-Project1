@@ -11,3 +11,6 @@ docker-compose up --build
 
 # Check running containers
 docker ps
+
+# Check logs
+docker-compose logs -f
