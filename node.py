@@ -26,25 +26,29 @@ def start_client():
         return
 
     # Listen for incoming messages from the master server
-    while True:
+    message_count = 0
+    max_messages = 5 # Set a maximum number of messages before exiting 
+
+    while message_count <= max_messages:
         try:
-
+            # Receive the incoming message (this will assign 'addr' to the sender's address)
             data, addr = client.recvfrom(1024)
-
-            # Send msg back to sender
-            client.sendto(f"Heya from {container_name}".encode(), addr)  
-
             print(f"Received message: {data.decode()} from {addr}")
-            # Optionally send a response
-            #client.sendto(f"Message received from {container_name}".encode(), addr)
+            
+            # Send a response to the sender
+            client.sendto(f"Heya from {container_name}".encode(), addr)  # Send to the received 'addr'
 
-            client.sendto(f"I'm odd and I'm proudly {container_name}".encode(), addr) 
+            # Optionally send another message
+            client.sendto(f"I'm odd and I'm proudly {container_name}".encode(), addr)  # Send another message to addr
+
+            message_count += 1  # Increment the message count
 
         except socket.timeout:
             print("Timeout waiting for incoming message.")
         except socket.error as e:
             print(f"Error receiving message: {e}")
 
+    print("Reached message limit, closing client.")
     client.close()
 
 if __name__ == "__main__":
