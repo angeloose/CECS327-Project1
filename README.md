@@ -1,6 +1,10 @@
 Refer to pdf for instructions
 
 Run commands:
+
+# Build image
+docker build -t ("image name) .
+
 # Build & Start Containers
 docker compose -t "(any name)" .
 
