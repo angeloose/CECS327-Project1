@@ -21,7 +21,8 @@ def start_server():
 
     print(f"{container_name} Listening on port 9999...")
 
-    for ip in allowed_ips:  # Run until a message is sent to each of the 7 other containers
+    # BROADCAST: send message to all nodes of same cluster
+    for ip in allowed_ips:  
 
         # Send message to ip listening to port 9999
         server.sendto(f" Can you hear me my children. It is I, {container_name}".encode(), (ip, 9999))
