@@ -1,168 +1,106 @@
 services:
+  # Cluster A
   cluster_a_master:
     container_name: cluster_a_master
-    build: .      # Use image from dockerfile build in current directory
+    build: .
+    ports:
+      - "5001:5000"  # Expose different ports for each cluster
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.2
-    environment:
-      - container_name=cluster_a_master
-    command: python3 master.py
+      - cluster_a
 
-  node_a1:
-    container_name: node_a1
+  cluster_a_node_1:
+    container_name: cluster_a_node_1
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.3
-    environment:
-      - container_name=cluster_a1
-    command: python3 node.py
+      - cluster_a
 
-  node_a2:
-    container_name: node_a2
+  cluster_a_node_2:
+    container_name: cluster_a_node_2
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.4
-    environment:
-      - container_name=cluster_a2
-    command: python3 node.py
+      - cluster_a
 
-  node_a3:
-    container_name: node_a3
+  cluster_a_node_3:
+    container_name: cluster_a_node_3
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.5
-    environment:
-      - container_name=cluster_a3
-    command: python3 node.py
+      - cluster_a
 
-  node_a4:
-    container_name: node_a4
+  cluster_a_node_4:
+    container_name: cluster_a_node_4
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.6
-    environment:
-      - container_name=cluster_a4
-    command: python3 node.py
+      - cluster_a
 
-  node_a5:
-    container_name: node_a5
+  cluster_a_node_5:
+    container_name: cluster_a_node_5
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.7
-    environment:
-      - container_name=cluster_a5
-    command: python3 node.py
+      - cluster_a
 
-  node_a6:
-    container_name: node_a6
+  cluster_a_node_6:
+    container_name: cluster_a_node_6
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.8
-    environment:
-      - container_name=cluster_a6
-    command: python3 node.py
+      - cluster_a
 
-  node_a7:
-    container_name: node_a7
+  cluster_a_node_7:
+    container_name: cluster_a_node_7
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.9
-    environment:
-      - container_name=cluster_a7
-    command: python3 node.py
+      - cluster_a
 
-
+  # Cluster B
   cluster_b_master:
     container_name: cluster_b_master
     build: .
+    ports:
+      - "5002:5000"  # Different port for cluster B
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.10
-    environment:
-      - container_name=cluster_b_master
-    command: python3 master.py
+      - cluster_b
 
-  node_b1:
-    container_name: node_b1
+  cluster_b_node_1:
+    container_name: cluster_b_node_1
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.11
-    environment:
-      - container_name=cluster_b1
-    command: python3 node.py
+      - cluster_b
 
-  node_b2:
-    container_name: node_b2
+  cluster_b_node_2:
+    container_name: cluster_b_node_2
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.12
-    environment:
-      - container_name=cluster_b2
-    command: python3 node.py
+      - cluster_b
 
-  node_b3:
-    container_name: node_b3
+  cluster_b_node_3:
+    container_name: cluster_b_node_3
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.13
-    environment:
-      - container_name=cluster_b3
-    command: python3 node.py
+      - cluster_b
 
-  node_b4:
-    container_name: node_b4
+  cluster_b_node_4:
+    container_name: cluster_b_node_4
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.14
-    environment:
-      - container_name=cluster_b4
-    command: python3 node.py
+      - cluster_b
 
-  node_b5:
-    container_name: node_b5
+  cluster_b_node_5:
+    container_name: cluster_b_node_5
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.15
-    environment:
-      - container_name=cluster_b5
-    command: python3 node.py
+      - cluster_b
 
-  node_b6:
-    container_name: node_b6
+  cluster_b_node_6:
+    container_name: cluster_b_node_6
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.16
-    environment:
-      - container_name=cluster_b6
-    command: python3 node.py
+      - cluster_b
 
-  node_b7:
-    container_name: node_b7
+  cluster_b_node_7:
+    container_name: cluster_b_node_7
     build: .
     networks:
-      cluster_network:
-        ipv4_address: 172.16.0.17
-    environment:
-      - container_name=cluster_b7
-    command: python3 node.py
+      - cluster_b
 
 networks:
-  cluster_network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.16.0.0/16
+  cluster_a:
+  cluster_b:

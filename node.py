@@ -1,9 +1,15 @@
 import os
 import socket
 import time
+import datetime
 
 ip_address = socket.gethostbyname(socket.gethostname())
 multicast_group_ips = ["172.16.0.3", "172.16.0.5", "172.16.0.7", "172.16.0.9"]  # Example for odd nodes
+
+def log_info(msg_type, elasped, sourceip, destip, sourceport, destport, protocol, length, flags):
+    timestamp = datetime.datetime.fromtimestamp(float(elasped)).strftime('%Y-%m-%d %H:%M:%S')
+    with open("logs.txt", "a") as f:
+        f.write(f"Type: {timestamp}, Time: {msg_type}, Source IP: {sourceip}, Destination IP: {destip}, Source Port: {sourceport}, Destination Port: {destport}, Protocol: {protocol}, Length: {length}, Flags: {flags}\n")
 
 def start_client():
     # Wait for the server to start (adjust as necessary)
