@@ -1,16 +1,20 @@
-Refer to pdf for instructions
+# Cluster Communication System
 
-# Rebuild: 
-docker-compose down
-docker system prune -af
-docker-compose up --build
+This project implements a **distributed cluster network** using **UDP-based messaging**.
+It enables **intra-cluster and inter-cluster communication** between worker nodes (node.py) and master nodes (master.py).
 
-Run commands:
-# Build & Start Containers
-docker-compose up --build
+## Features
+- **Master & Worker Nodes**: Masters manage message routing between clusters.
+- **UDP Messaging**: Supports Unicast, Broadcast, Multicast.
+- **Logging System**: Tracks all communication in a CSV log.
+- **Dockerized Deployment**: Easily run the entire system using Docker.
 
-# Check running containers
-docker ps
+---
 
-# Check logs
-docker-compose logs -f
+## Getting Started
+
+### ️Prerequisites
+Before running this system, make sure you have:
+- **Docker** installed
+- **Python 3** insalled
+- A system that supports **Linux**
