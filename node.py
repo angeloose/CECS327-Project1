@@ -1,64 +1,74 @@
-import os
 import socket
+import os
+import json
 import time
-import datetime
+import csv
 
+# Cluster Configuration
+cluster_a_ips = ["172.16.0.2", "172.16.0.3", "172.16.0.4", "172.16.0.5", "172.16.0.6", "172.16.0.7", "172.16.0.8", "172.16.0.9"]
+cluster_b_ips = ["172.16.0.10", "172.16.0.11", "172.16.0.12", "172.16.0.13", "172.16.0.14", "172.16.0.15", "172.16.0.16", "172.16.0.17"]
+
+# Get environment variables
 ip_address = socket.gethostbyname(socket.gethostname())
-multicast_group_ips = ["172.16.0.3", "172.16.0.5", "172.16.0.7", "172.16.0.9"]  # Example for odd nodes
+cluster_master_ip = os.getenv("CLUSTER_MASTER_IP", "172.16.0.2")  # Default to Cluster A Master
+cluster_port = int(os.getenv("CLUSTER_PORT", 5001))
 
-def log_info(msg_type, elasped, sourceip, destip, sourceport, destport, protocol, length, flags):
-    timestamp = datetime.datetime.fromtimestamp(float(elasped)).strftime('%Y-%m-%d %H:%M:%S')
-    with open("logs.txt", "a") as f:
-        f.write(f"Type: {timestamp}, Time: {msg_type}, Source IP: {sourceip}, Destination IP: {destip}, Source Port: {sourceport}, Destination Port: {destport}, Protocol: {protocol}, Length: {length}, Flags: {flags}\n")
+# Logging Functions (Same as master.py)
+def get_cluster(ip):
+    if ip in cluster_a_ips:
+        return "Cluster A"
+    elif ip in cluster_b_ips:
+        return "Cluster B"
+    else:
+        return "Unknown"
 
-def start_client():
-    # Wait for the server to start (adjust as necessary)
-    time.sleep(2)
+def get_message_flags(msg_type):
+    return {
+        "Broadcast": "0x010",
+        "Multicast": "0x012"
+    }.get(msg_type, "0x000")
 
-    print(f"{container_name} starting UDP client")
+def log_communication(msg_type, src_ip, dst_ip, message_data):
+    src_cluster = get_cluster(src_ip)
+    dst_cluster = get_cluster(dst_ip)
+    protocol = "UDP"
+    length = len(message_data.encode())
+    flags = get_message_flags(msg_type)
 
-    # Create UDP socket
-    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    type_label = f"{'Intra' if src_cluster == dst_cluster else 'Inter'}-{msg_type}"
+    current_time = f"{time.time():.6f}"
 
-    # Set a timeout for socket operations
-    client.settimeout(5)  # 5 seconds timeout for blocking operations
+    with open("/app/logs/network_log.csv", "a", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow([type_label, current_time, src_cluster, dst_cluster, src_ip, dst_ip, protocol, length, flags])
 
-    # Listen on port 9999 (for broadcast messages)
-    try:
-        client.bind(("0.0.0.0", 9999))
-    except socket.error as e:
-        print(f"Error binding client socket: {e}")
-        client.close()
-        return
+# Send message function
+def send_message(msg_type, dst_ip, message_data):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    dst_cluster = get_cluster(dst_ip)
+    
+    # Determine if message is intra or inter-cluster
+    if dst_cluster == get_cluster(ip_address):  
+        target_ip, target_port = dst_ip, cluster_port
+    else:
+        print(f"Inter-cluster message detected, routing via master {cluster_master_ip}")
+        target_ip, target_port = cluster_master_ip, cluster_port
 
-    # Listen for incoming messages from the master server
-    message_count = 0
-    max_messages = 5 # Set a maximum number of messages before exiting 
+    message = json.dumps({
+        "type": msg_type,
+        "src_ip": ip_address,
+        "dst_ip": dst_ip,
+        "data": message_data
+    })
 
-    while message_count <= max_messages:
-        try:
-            # Receive the incoming message (this will assign 'addr' to the sender's address)
-            data, addr = client.recvfrom(1024)
-            print(f"Received message: {data.decode()} from {addr}")
-            
-            # Send a response to the sender
-            client.sendto(f"Heya from {container_name}".encode(), addr)  # Send to the received 'addr'
+    sock.sendto(message.encode(), (target_ip, target_port))
+    log_communication(msg_type, ip_address, dst_ip, message_data)
+    print(f"Sent {msg_type} message to {dst_ip} via {target_ip}:{target_port}")
 
-            # Optionally send another message
-            client.sendto(f"I'm odd and I'm proudly {container_name}".encode(), addr)  # Send another message to addr
-
-            message_count += 1  # Increment the message count
-
-        except socket.timeout:
-            print("Timeout waiting for incoming message.")
-        except socket.error as e:
-            print(f"Error receiving message: {e}")
-
-    print("Reached message limit, closing client.")
-    client.close()
-
+# Example usage
 if __name__ == "__main__":
-    # Get the name of the container
-    container_name = os.getenv("container_name", "unknown")
+    time.sleep(2)  # Ensure all containers initialize
 
-    start_client()
+    # Example: Sending a message to another node
+    target_node = "172.16.0.11"  # Change this to test intra/inter-cluster
+    send_message("Unicast", target_node, "Hello from Node!")
