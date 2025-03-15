@@ -35,7 +35,7 @@ def log_communication(msg_type, src_ip, dst_ip, message_data):
     src_cluster = get_cluster(src_ip)
     dst_cluster = get_cluster(dst_ip)
     protocol = "UDP"
-    length = len(message_data.encode())  # length of the message
+    length = len(message_data.encode())
     flags = get_message_flags(msg_type)
 
     # Intra vs Inter
