@@ -67,8 +67,23 @@ def send_message(msg_type, dst_ip, message_data):
 
 # Example usage
 if __name__ == "__main__":
-    time.sleep(2)  # Ensure all containers initialize
+    # Example: Define a list of nodes for broadcast/multicast
+    multicast_group_ips = ["172.16.0.3", "172.16.0.5", "172.16.0.7", "172.16.0.9"]  # Example for odd nodes
 
-    # Example: Sending a message to another node
-    target_node = "172.16.0.11"  # Change this to test intra/inter-cluster
-    send_message("Unicast", target_node, "Hello from Node!")
+    # Unicast: Pick a single target
+    target_node = "172.16.0.4"  # Example target for unicast
+
+    # If the target is in the same cluster, use Unicast
+    if target_node in cluster_a_ips or target_node in cluster_b_ips:
+        send_message("Unicast", target_node, "Hello from Node!")
+
+    # Broadcast: Send to all nodes in the same cluster
+    for node in (cluster_a_ips if ip_address in cluster_a_ips else cluster_b_ips):
+        if node != ip_address:  # Don't send to itself
+            send_message("Broadcast", node, "Broadcast Message from Node!")
+
+    # Multicast: Send to specific group in the same cluster
+    if ip_address in multicast_group_ips:
+        for node in multicast_group_ips:
+            if node != ip_address:
+                send_message("Multicast", node, "Multicast Message from Node!")
